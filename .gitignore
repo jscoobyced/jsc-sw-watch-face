@@ -1,0 +1,12 @@
+# Certificates
+.sign
+
+# Binaries
+Debug
+Release
+
+# Reporting
+SA_Report
+
+# Copyright
+tizen-project/tizen-manifest.xml
