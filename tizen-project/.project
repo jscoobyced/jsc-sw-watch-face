@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>jsc-sw-watch-face</name>
+	<name>jsc_sw_watch_face</name>
 	<comment></comment>
 	<projects>
 	</projects>
 	<buildSpec>
 		<buildCommand>
-			<name>org.tizen.nativecore.apichecker.apicheckerbuilder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
-		<buildCommand>
 			<name>org.eclipse.cdt.managedbuilder.core.genmakebuilder</name>
+			<triggers>clean,full,incremental,</triggers>
 			<arguments>
 			</arguments>
 		</buildCommand>
@@ -27,11 +23,10 @@
 		<nature>org.eclipse.cdt.core.ccnature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
-		<nature>org.tizen.nativecore.apichecker.apicheckernature</nature>
 	</natures>
 	<filteredResources>
 		<filter>
-			<id>1611332759754</id>
+			<id>1612021077471</id>
 			<name></name>
 			<type>26</type>
 			<matcher>
@@ -40,7 +35,7 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1611332759772</id>
+			<id>1612021077477</id>
 			<name></name>
 			<type>6</type>
 			<matcher>

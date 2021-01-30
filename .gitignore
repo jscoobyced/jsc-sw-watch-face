@@ -1,6 +1,9 @@
 # Certificates
 .sign
 
+# Settings
+.settings
+
 # Binaries
 Debug
 Release

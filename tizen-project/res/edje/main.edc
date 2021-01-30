@@ -1,0 +1,207 @@
+#include "../../inc/view_defines.h"
+
+#define STATE_IMAGE_UNPRESSED "default"
+#define STATE_IMAGE_PRESSED "state_image_pressed"
+
+#define IMAGE_BACKGROUND "../res/images/jsc-sw-watch-face-bg.png"
+#define IMAGE_DEATHSTAR	"../res/images/jsc-sw-watch-face-ds.png"
+#define IMAGE_HAND_HOUR "../res/images/jsc-sw-watch-face-hours.png"
+#define IMAGE_HAND_MINUTE "../res/images/jsc-sw-watch-face-minutes.png"
+#define IMAGE_HAND_SECOND "../res/images/jsc-sw-watch-face-seconds.png"
+
+#define PART_BACKGROUND "background"
+#define PART_HAND_HOUR "hand_hour"
+#define PART_HAND_MINUTE "hand_minute"
+#define PART_HAND_SECOND "hand_second"
+#define PART_DEATHSTAR "death_star"
+
+styles
+{
+   style
+   {
+      name: "badge_style";
+		base: "font="default" font_size=18 align=center color=#ffffffff style=shadow,bottom shadow_color=#999999ff";
+   }
+}
+
+collections {
+   images {
+      image: IMAGE_BACKGROUND COMP;
+      image: IMAGE_DEATHSTAR COMP;
+      image: IMAGE_HAND_HOUR COMP;
+      image: IMAGE_HAND_MINUTE COMP;
+      image: IMAGE_HAND_SECOND COMP;
+   }
+
+   group {
+      name: "main";
+      parts {
+         part {
+            name: PART_BACKGROUND;
+            type: IMAGE;
+            scale: 1;
+            description {
+               state: "default" 0.0;
+               image { normal: IMAGE_BACKGROUND; }
+               align: 0.0 0.0;
+               rel1 { relative: 0.0 0.0; }
+               rel2 { relative: 1.0 1.0; }
+            }
+         }
+
+         part {
+            name: PART_DEATHSTAR;
+            type: IMAGE;
+            scale: 1;
+            description {
+               state: "default" 0.0;
+               visible: 1;
+               image { normal: IMAGE_DEATHSTAR; }
+               rel1 {
+                  relative: 0.001 0.001;
+                  to: PART_BACKGROUND;
+               }
+               rel2 {
+                  relative: 0.999 0.999;
+                  to: PART_BACKGROUND;
+               }
+         }
+         
+         part {
+            name: PART_HAND_HOUR;
+            type: IMAGE;
+            scale: 1;
+            description {
+               state: "default" 0.0;
+               image { normal: IMAGE_HAND_HOUR; }
+               rel1 {
+                  relative: 0.4935 0.2339;
+                  to: PART_BACKGROUND;
+               }
+               rel2 {
+                  relative: 0.506 0.485;
+                  to: PART_BACKGROUND;
+               }
+               map {
+                  on: 1;
+                  rotation {
+                     center: PART_BACKGROUND;
+                     x: 0.0;
+                     y: 0.0;
+                     z: 0.0;
+                  }
+               }
+            }
+         }
+         
+         part {
+            name: PART_HAND_MINUTE;
+            type: IMAGE;
+            scale: 1;
+            description {
+               state: "default" 0.0;
+               image { normal: IMAGE_HAND_MINUTE; }
+               rel1 {
+                  relative: 0.49165 0.1483;
+                  to: PART_BACKGROUND;
+               }
+               rel2 {
+                  relative: 0.504 0.485;
+                  to: PART_BACKGROUND;
+               }
+               map {
+                  on: 1;
+                  rotation {
+                     center: PART_BACKGROUND;
+                     x: 0.0;
+                     y: 0.0;
+                     z: 0.0;
+                  }
+               }
+            }
+         }
+         
+         part {
+            name: PART_HAND_SECOND;
+            type: IMAGE;
+            scale: 1;
+            description {
+               state: "default" 0.0;
+               visible: 1;
+               image { normal: IMAGE_HAND_SECOND; }
+               rel1 {
+                  relative: 0.47 0.03;
+                  to: PART_BACKGROUND;
+               }
+               rel2 {
+                  relative: 0.54 0.1;
+                  to: PART_BACKGROUND;
+               }
+               map {
+                  on: 1;
+                  rotation {
+                     center: PART_BACKGROUND;
+                     x: 0.0;
+                     y: 0.0;
+                     z: 0.0;
+                  }
+               }
+            }
+         }
+      }
+
+      script
+      {
+         public message(Msg_Type:type, id, ...) {
+            static ambient_mode = 0;
+            static Float:hh;
+            static Float:mm;
+            static Float:ss;
+
+            if (type == MSG_INT && id == MSG_ID_AMBIENT_MODE) {
+               ambient_mode = getarg(2);
+
+               if (ambient_mode == 0) {
+                  custom_state(PART:PART_HAND_SECOND, "default", 0.0);
+                  set_state_val(PART:PART_HAND_SECOND, STATE_VISIBLE, 1);
+                  set_state(PART:PART_HAND_SECOND, "shown", 0.0);
+                  
+                  custom_state(PART:PART_DEATHSTAR, "default", 0.0);
+                  set_state_val(PART:PART_DEATHSTAR, STATE_VISIBLE, 1);
+                  set_state(PART:PART_DEATHSTAR, "shown", 0.0);
+               } else {
+                  custom_state(PART:PART_HAND_SECOND, "default", 0.0);
+                  set_state_val(PART:PART_HAND_SECOND, STATE_VISIBLE, 0);
+                  set_state(PART:PART_HAND_SECOND, "hidden", 0.0);
+                  
+                  custom_state(PART:PART_DEATHSTAR, "default", 0.0);
+                  set_state_val(PART:PART_DEATHSTAR, STATE_VISIBLE, 0);
+                  set_state(PART:PART_DEATHSTAR, "hidden", 0.0);
+               }
+            }
+
+            if (type == MSG_INT_SET && id == MSG_ID_SET_TIME) {
+               hh = getarg(2);
+               mm = getarg(3);
+               ss = getarg(4);
+
+               custom_state(PART:PART_HAND_HOUR, "default", 0.0);
+               set_state_val(PART:PART_HAND_HOUR, STATE_MAP_ROT_Z, hh * 360.0 / 12.0 + mm * 360.0 / 12.0 / 60.0);
+               set_state(PART:PART_HAND_HOUR, "custom", 0.0);
+
+               custom_state(PART:PART_HAND_MINUTE, "default", 0.0);
+               set_state_val(PART:PART_HAND_MINUTE, STATE_MAP_ROT_Z, mm * 360.0 / 60.0);
+               set_state(PART:PART_HAND_MINUTE, "custom", 0.0);
+
+               if (ambient_mode == 0) {
+                  custom_state(PART:PART_HAND_SECOND, "default", 0.0);
+                  custom_state(PART:PART_DEATHSTAR, "default", 0.0);
+                  set_state_val(PART:PART_HAND_SECOND, STATE_MAP_ROT_Z, ss * 360.0 / 60.0);
+                  set_state(PART:PART_HAND_SECOND, "custom", 0.0);
+                  set_state(PART:PART_DEATHSTAR, "custom", 0.0);
+               }
+            }
+         }
+      }
+   }
+}
