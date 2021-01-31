@@ -5,7 +5,7 @@
 Tested on:
 - Galaxy Watch 3 Titanium
 
-[![Star Wars Watch Face](https://img.youtube.com/vi/bD1g1haTahU/0.jpg)](https://www.youtube.com/watch?v=bD1g1haTahU "Star Wars Watch Face")
+[![Star Wars Watch Face](https://img.youtube.com/vi/BOOvkrG0hzY/0.jpg)](https://www.youtube.com/watch?v=BOOvkrG0hzY "Star Wars Watch Face")
 
 ## How to build
 
