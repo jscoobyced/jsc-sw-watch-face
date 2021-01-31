@@ -4,7 +4,6 @@
 #define STATE_IMAGE_PRESSED "state_image_pressed"
 
 #define IMAGE_BACKGROUND "../res/images/jsc-sw-watch-face-bg.png"
-#define IMAGE_DEATHSTAR	"../res/images/jsc-sw-watch-face-ds.png"
 #define IMAGE_HAND_HOUR "../res/images/jsc-sw-watch-face-hours.png"
 #define IMAGE_HAND_MINUTE "../res/images/jsc-sw-watch-face-minutes.png"
 #define IMAGE_HAND_SECOND "../res/images/jsc-sw-watch-face-seconds.png"
@@ -13,7 +12,6 @@
 #define PART_HAND_HOUR "hand_hour"
 #define PART_HAND_MINUTE "hand_minute"
 #define PART_HAND_SECOND "hand_second"
-#define PART_DEATHSTAR "death_star"
 
 styles
 {
@@ -27,7 +25,6 @@ styles
 collections {
    images {
       image: IMAGE_BACKGROUND COMP;
-      image: IMAGE_DEATHSTAR COMP;
       image: IMAGE_HAND_HOUR COMP;
       image: IMAGE_HAND_MINUTE COMP;
       image: IMAGE_HAND_SECOND COMP;
@@ -49,24 +46,6 @@ collections {
             }
          }
 
-         part {
-            name: PART_DEATHSTAR;
-            type: IMAGE;
-            scale: 1;
-            description {
-               state: "default" 0.0;
-               visible: 1;
-               image { normal: IMAGE_DEATHSTAR; }
-               rel1 {
-                  relative: 0.001 0.001;
-                  to: PART_BACKGROUND;
-               }
-               rel2 {
-                  relative: 0.999 0.999;
-                  to: PART_BACKGROUND;
-               }
-         }
-         
          part {
             name: PART_HAND_HOUR;
             type: IMAGE;
@@ -166,17 +145,17 @@ collections {
                   set_state_val(PART:PART_HAND_SECOND, STATE_VISIBLE, 1);
                   set_state(PART:PART_HAND_SECOND, "shown", 0.0);
                   
-                  custom_state(PART:PART_DEATHSTAR, "default", 0.0);
-                  set_state_val(PART:PART_DEATHSTAR, STATE_VISIBLE, 1);
-                  set_state(PART:PART_DEATHSTAR, "shown", 0.0);
+                  custom_state(PART:PART_BACKGROUND, "default", 0.0);
+                  set_state_val(PART:PART_BACKGROUND, STATE_VISIBLE, 1);
+                  set_state(PART:PART_BACKGROUND, "shown", 0.0);
                } else {
                   custom_state(PART:PART_HAND_SECOND, "default", 0.0);
                   set_state_val(PART:PART_HAND_SECOND, STATE_VISIBLE, 0);
                   set_state(PART:PART_HAND_SECOND, "hidden", 0.0);
                   
-                  custom_state(PART:PART_DEATHSTAR, "default", 0.0);
-                  set_state_val(PART:PART_DEATHSTAR, STATE_VISIBLE, 0);
-                  set_state(PART:PART_DEATHSTAR, "hidden", 0.0);
+                  custom_state(PART:PART_BACKGROUND, "default", 0.0);
+                  set_state_val(PART:PART_BACKGROUND, STATE_VISIBLE, 0);
+                  set_state(PART:PART_BACKGROUND, "hidden", 0.0);
                }
             }
 
@@ -195,10 +174,10 @@ collections {
 
                if (ambient_mode == 0) {
                   custom_state(PART:PART_HAND_SECOND, "default", 0.0);
-                  custom_state(PART:PART_DEATHSTAR, "default", 0.0);
+                  custom_state(PART:PART_BACKGROUND, "default", 0.0);
                   set_state_val(PART:PART_HAND_SECOND, STATE_MAP_ROT_Z, ss * 360.0 / 60.0);
                   set_state(PART:PART_HAND_SECOND, "custom", 0.0);
-                  set_state(PART:PART_DEATHSTAR, "custom", 0.0);
+                  set_state(PART:PART_BACKGROUND, "custom", 0.0);
                }
             }
          }
