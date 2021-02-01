@@ -20,6 +20,7 @@ void lang_changed(app_event_info_h event_info, void* user_data)
 		return;
 
 	elm_language_set(locale);
+	view_set_language(locale);
 	free(locale);
 
 	return;
@@ -84,6 +85,7 @@ void device_orientation(app_event_info_h event_info, void* user_data)
 static bool app_create(int width, int height, void* user_data)
 {
 	view_create_with_size(width, height);
+	lang_changed(NULL,  NULL);
 	return true;
 }
 
@@ -216,6 +218,8 @@ static bool _get_time(watch_time_h watch_time, current_time_t *current_time)
 		return false;
 	}
 
+	watch_time_get_day(watch_time, &current_time->day);
+	watch_time_get_month(watch_time, &current_time->month);
 	watch_time_get_hour24(watch_time, &current_time->hour);
 	watch_time_get_minute(watch_time, &current_time->minute);
 	watch_time_get_second(watch_time, &current_time->second);

@@ -8,6 +8,8 @@ struct _current_time {
 	int hour;
 	int minute;
 	int second;
+	int day;
+	int month;
 };
 
 typedef struct _current_time current_time_t;

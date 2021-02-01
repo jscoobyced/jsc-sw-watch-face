@@ -1,4 +1,6 @@
 #include <watch_app_efl.h>
+#include <system_settings.h>
+#include <device/battery.h>
 #include "jsc_sw_watch_face.h"
 #include "view.h"
 #include "view_defines.h"
@@ -10,7 +12,16 @@ static struct view_info {
 	Evas_Object *layout;
 	int w;
 	int h;
-} s_info = { .win = NULL, .layout = NULL, .w = 0, .h = 0, };
+	int lang;
+	int day;
+	int month;
+	int battery;
+} s_info = { .win = NULL, .layout = NULL, .w = 0, .h = 0, .lang = 0, .day = 0,
+		.month = 0, .battery = -1 };
+
+char months[2][12][8] = { { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
+		"Aug", "Sep", "Oct", "Nov", "Dec" }, { "Janv", "Fevr", "Mars", "Avri",
+		"Mai", "Juin", "Juil", "Aout", "Sep", "Oct", "Nov", "Dec" } };
 
 static char *_create_resource_path(const char *file_name);
 static Evas_Object *_create_layout(void);
@@ -102,11 +113,46 @@ Evas_Object *view_create_layout_for_part(Evas_Object *parent, char *file_path,
 	return layout;
 }
 
+void view_set_language(char *locale) {
+	if (strcmp("en_US", locale) == 0) {
+		s_info.lang = 0;
+	} else if (strcmp("fr_FR", locale) == 0) {
+		s_info.lang = 1;
+	}
+}
+
 /*
  * @brief Draws the clock's hands.
  * @param[current_time]: the structure of time components.
  */
 void view_set_display_time(current_time_t current_time) {
+	Evas_Object *layout = elm_layout_edje_get(s_info.layout);
+	if (s_info.day != current_time.day) {
+		char date_day[8] = { 0, };
+		char date_month[8] = { 0, };
+
+		snprintf(date_day, 4, "%s%d", current_time.day >= 10 ? "" : "0",
+				current_time.day);
+		if (current_time.month > 0) {
+			snprintf(date_month, 6, "%s",
+					months[s_info.lang][current_time.month - 1]);
+		} else {
+			snprintf(date_month, 6, "---");
+		}
+
+		edje_object_part_text_set(layout, PART_DATE_DAY, date_day);
+		edje_object_part_text_set(layout, PART_DATE_MONTH, date_month);
+		s_info.month = current_time.month;
+		s_info.day = current_time.day;
+	}
+
+	if (current_time.second % 10 == 0 || s_info.battery < 0) {
+		device_battery_get_percent(&s_info.battery);
+		char battery_percent[8] = { 0, };
+		snprintf(battery_percent, 8, "%d %%", s_info.battery);
+		edje_object_part_text_set(layout, PART_BATTERY, battery_percent);
+	}
+
 	Edje_Message_Int_Set *msg = malloc(
 			sizeof(Edje_Message_Int_Set) + 2 * sizeof(int));
 
@@ -130,7 +176,8 @@ void view_toggle_ambient_mode(bool ambient_mode) {
 
 	msg.val = ambient_mode ? 1 : 0;
 	edje_object_message_send(elm_layout_edje_get(s_info.layout),
-			EDJE_MESSAGE_INT, MSG_ID_AMBIENT_MODE, &msg);
+			EDJE_MESSAGE_INT,
+			MSG_ID_AMBIENT_MODE, &msg);
 }
 
 /*
@@ -178,7 +225,8 @@ static Evas_Object *_create_layout(void) {
 	if (!layout)
 		return NULL;
 
-	evas_object_size_hint_align_set(layout, EVAS_HINT_FILL, EVAS_HINT_FILL);
+	evas_object_size_hint_align_set(layout, EVAS_HINT_FILL,
+	EVAS_HINT_FILL);
 	evas_object_size_hint_min_set(layout, s_info.w, s_info.h);
 	evas_object_resize(layout, s_info.w, s_info.h);
 	evas_object_show(layout);
