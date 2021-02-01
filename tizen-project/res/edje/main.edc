@@ -45,6 +45,81 @@ collections {
                rel2 { relative: 1.0 1.0; }
             }
          }
+         
+         part {
+         	name: PART_DATE_DAY;
+         	type: TEXT;
+         	description {
+         		align: 0 0;
+         		color: 249 215 28 255;
+         		rel1 {
+         			relative: 0.35 0.32;
+         		}
+         		rel2 {
+         			relative: 0.6 0.5;
+         		}
+         		text {
+         			text: "...";
+         			font: "Sans";
+         			size: 25;
+         			fit: 0 0;
+         			min: 0 0;
+         			max: 0 0;
+         			align: 0.5 0;
+         			elipsis: 0.0;
+         		}
+         	}
+         }
+
+         part {
+         	name: PART_DATE_MONTH;
+         	type: TEXT;
+         	description {
+         		align: 0 0;
+         		color: 249 215 28 255;
+         		rel1 {
+         			relative: 0.35 0.24;
+         		}
+         		rel2 {
+         			relative: 0.6 0.5;
+         		}
+         		text {
+         			text: "...";
+         			font: "Sans:style=Oblique";
+         			size: 25;
+         			fit: 0 0;
+         			min: 0 0;
+         			max: 0 0;
+         			align: 0.5 0;
+         			elipsis: 0.0;
+         		}
+         	}
+         }
+
+         part {
+         	name: PART_BATTERY;
+         	type: TEXT;
+         	description {
+         		align: 0 0;
+         		color: 249 215 28 255;
+         		rel1 {
+         			relative: 0.4 0.76;
+         		}
+         		rel2 {
+         			relative: 0.6 0.5;
+         		}
+         		text {
+         			text: "0 %";
+         			font: "Sans";
+         			size: 18;
+         			fit: 0 0;
+         			min: 0 0;
+         			max: 0 0;
+         			align: 0.5 0;
+         			elipsis: 0.0;
+         		}
+         	}
+         }
 
          part {
             name: PART_HAND_HOUR;
