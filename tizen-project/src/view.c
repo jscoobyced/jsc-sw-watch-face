@@ -1,6 +1,5 @@
 #include <watch_app_efl.h>
 #include <system_settings.h>
-#include <device/battery.h>
 #include "jsc_sw_watch_face.h"
 #include "view.h"
 #include "view_defines.h"
@@ -17,7 +16,7 @@ static struct view_info {
 	int month;
 	int battery;
 } s_info = { .win = NULL, .layout = NULL, .w = 0, .h = 0, .lang = 0, .day = 0,
-		.month = 0, .battery = -1 };
+		.month = 0 };
 
 char months[2][12][8] = { { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
 		"Aug", "Sep", "Oct", "Nov", "Dec" }, { "Janv", "Fevr", "Mars", "Avri",
@@ -121,6 +120,13 @@ void view_set_language(char *locale) {
 	}
 }
 
+void view_update_battery(int battery) {
+	char battery_percent[8] = { 0, };
+	snprintf(battery_percent, 8, "%d %%", 	battery);
+	Evas_Object *layout = elm_layout_edje_get(s_info.layout);
+	edje_object_part_text_set(layout, PART_BATTERY, battery_percent);
+}
+
 /*
  * @brief Draws the clock's hands.
  * @param[current_time]: the structure of time components.
@@ -144,13 +150,6 @@ void view_set_display_time(current_time_t current_time) {
 		edje_object_part_text_set(layout, PART_DATE_MONTH, date_month);
 		s_info.month = current_time.month;
 		s_info.day = current_time.day;
-	}
-
-	if (current_time.second % 10 == 0 || s_info.battery < 0) {
-		device_battery_get_percent(&s_info.battery);
-		char battery_percent[8] = { 0, };
-		snprintf(battery_percent, 8, "%d %%", s_info.battery);
-		edje_object_part_text_set(layout, PART_BATTERY, battery_percent);
 	}
 
 	Edje_Message_Int_Set *msg = malloc(

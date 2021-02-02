@@ -13,5 +13,5 @@ void view_set_display_time(current_time_t current_time);
 void view_set_language(char *locale);
 void view_toggle_ambient_mode(bool ambient_mode);
 void view_destroy(void);
-
+void view_update_battery(int battery_percent);
 #endif
