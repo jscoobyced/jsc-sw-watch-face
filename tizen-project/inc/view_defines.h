@@ -8,4 +8,6 @@
 #define PART_DATE_MONTH "part_date_month"
 #define PART_BATTERY "part_battery"
 
+#define SW_OUT_ITALIC "/opt/usr/apps/io.narok.jsc_sw_watch_face/res/font/"
+
 #endif

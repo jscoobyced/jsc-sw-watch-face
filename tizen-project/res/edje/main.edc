@@ -13,13 +13,11 @@
 #define PART_HAND_MINUTE "hand_minute"
 #define PART_HAND_SECOND "hand_second"
 
-styles
+
+fonts
 {
-   style
-   {
-      name: "badge_style";
-		base: "font="default" font_size=18 align=center color=#ffffffff style=shadow,bottom shadow_color=#999999ff";
-   }
+	font: "../res/font/SFDistantGalaxyOutline.ttf" "SWFONTOUT";
+	font: "../res/font/SFDistantGalaxy.ttf" "SWFONT";
 }
 
 collections {
@@ -53,14 +51,14 @@ collections {
          		align: 0 0;
          		color: 249 215 28 255;
          		rel1 {
-         			relative: 0.35 0.32;
+         			relative: 0.35 0.34;
          		}
          		rel2 {
          			relative: 0.6 0.5;
          		}
          		text {
          			text: "...";
-         			font: "Sans";
+         			font: "SWFONTOUT";
          			size: 25;
          			fit: 0 0;
          			min: 0 0;
@@ -78,14 +76,14 @@ collections {
          		align: 0 0;
          		color: 249 215 28 255;
          		rel1 {
-         			relative: 0.35 0.24;
+         			relative: 0.35 0.26;
          		}
          		rel2 {
          			relative: 0.6 0.5;
          		}
          		text {
          			text: "...";
-         			font: "Sans:style=Oblique";
+         			font: "SWFONTOUT";
          			size: 25;
          			fit: 0 0;
          			min: 0 0;
@@ -110,7 +108,7 @@ collections {
          		}
          		text {
          			text: "0 %";
-         			font: "Sans";
+         			font: "SWFONT";
          			size: 18;
          			fit: 0 0;
          			min: 0 0;
@@ -223,6 +221,18 @@ collections {
                   custom_state(PART:PART_BACKGROUND, "default", 0.0);
                   set_state_val(PART:PART_BACKGROUND, STATE_VISIBLE, 1);
                   set_state(PART:PART_BACKGROUND, "shown", 0.0);
+
+                  custom_state(PART:PART_DATE_DAY, "default", 0.0);
+                  set_state_val(PART:PART_DATE_DAY, STATE_VISIBLE, 1);
+                  set_state(PART:PART_DATE_DAY, "shown", 0.0);
+                  
+                  custom_state(PART:PART_DATE_MONTH, "default", 0.0);
+                  set_state_val(PART:PART_DATE_MONTH, STATE_VISIBLE, 1);
+                  set_state(PART:PART_DATE_MONTH, "shown", 0.0);
+                  
+                  custom_state(PART:PART_BATTERY, "default", 0.0);
+                  set_state_val(PART:PART_BATTERY, STATE_VISIBLE, 1);
+                  set_state(PART:PART_BATTERY, "shown", 0.0);
                } else {
                   custom_state(PART:PART_HAND_SECOND, "default", 0.0);
                   set_state_val(PART:PART_HAND_SECOND, STATE_VISIBLE, 0);
@@ -231,6 +241,18 @@ collections {
                   custom_state(PART:PART_BACKGROUND, "default", 0.0);
                   set_state_val(PART:PART_BACKGROUND, STATE_VISIBLE, 0);
                   set_state(PART:PART_BACKGROUND, "hidden", 0.0);
+
+                  custom_state(PART:PART_DATE_DAY, "default", 0.0);
+                  set_state_val(PART:PART_DATE_DAY, STATE_VISIBLE, 0);
+                  set_state(PART:PART_DATE_DAY, "hidden", 0.0);
+                  
+                  custom_state(PART:PART_DATE_MONTH, "default", 0.0);
+                  set_state_val(PART:PART_DATE_MONTH, STATE_VISIBLE, 0);
+                  set_state(PART:PART_DATE_MONTH, "hidden", 0.0);
+                  
+                  custom_state(PART:PART_BATTERY, "default", 0.0);
+                  set_state_val(PART:PART_BATTERY, STATE_VISIBLE, 0);
+                  set_state(PART:PART_BATTERY, "hidden", 0.0);
                }
             }
 
@@ -249,10 +271,17 @@ collections {
 
                if (ambient_mode == 0) {
                   custom_state(PART:PART_HAND_SECOND, "default", 0.0);
-                  custom_state(PART:PART_BACKGROUND, "default", 0.0);
                   set_state_val(PART:PART_HAND_SECOND, STATE_MAP_ROT_Z, ss * 360.0 / 60.0);
                   set_state(PART:PART_HAND_SECOND, "custom", 0.0);
+
+                  custom_state(PART:PART_BACKGROUND, "default", 0.0);
                   set_state(PART:PART_BACKGROUND, "custom", 0.0);
+                  custom_state(PART:PART_DATE_DAY, "default", 0.0);
+                  set_state(PART:PART_DATE_DAY, "custom", 0.0);
+                  custom_state(PART:PART_DATE_MONTH, "default", 0.0);
+                  set_state(PART:PART_DATE_MONTH, "custom", 0.0);
+                  custom_state(PART:PART_BATTERY, "default", 0.0);
+                  set_state(PART:PART_BATTERY, "custom", 0.0);
                }
             }
          }

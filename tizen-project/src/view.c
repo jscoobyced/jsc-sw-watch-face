@@ -39,6 +39,7 @@ void view_create_with_size(int width, int height) {
  * @brief Create Essential Object window and layout
  */
 void view_create(void) {
+	evas_font_path_global_append(SW_OUT_ITALIC);
 	s_info.win = view_create_win(PACKAGE);
 	if (!s_info.win) {
 		dlog_print(DLOG_ERROR, LOG_TAG, "failed to create a window.");
