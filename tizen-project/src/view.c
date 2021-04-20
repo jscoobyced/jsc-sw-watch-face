@@ -1,3 +1,4 @@
+#include <jsc_sensors.h>
 #include <watch_app_efl.h>
 #include <system_settings.h>
 #include "jsc_sw_watch_face.h"
@@ -15,15 +16,13 @@ static struct view_info {
 	int day;
 	int month;
 	int battery;
+	int pedometer_updated;
 } s_info = { .win = NULL, .layout = NULL, .w = 0, .h = 0, .lang = 0, .day = 0,
-		.month = 0 };
+		.month = 0, .pedometer_updated = 0 };
 
 char months[2][12][8] = { { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
 		"Aug", "Sep", "Oct", "Nov", "Dec" }, { "Janv", "Fevr", "Mars", "Avri",
 		"Mai", "Juin", "Juil", "Aout", "Sep", "Oct", "Nov", "Dec" } };
-
-static char *_create_resource_path(const char *file_name);
-static Evas_Object *_create_layout(void);
 
 /*
  * @brief Creates the application's UI with window's width and height preset.
@@ -123,9 +122,20 @@ void view_set_language(char *locale) {
 
 void view_update_battery(int battery) {
 	char battery_percent[8] = { 0, };
-	snprintf(battery_percent, 8, "%d %%", 	battery);
+	snprintf(battery_percent, 8, "%d %%", battery);
 	Evas_Object *layout = elm_layout_edje_get(s_info.layout);
 	edje_object_part_text_set(layout, PART_BATTERY, battery_percent);
+}
+
+void update_pedometer(int steps) {
+	char step_message[64];
+	snprintf(step_message, 64, "%d", steps);
+	Evas_Object *layout = elm_layout_edje_get(s_info.layout);
+	edje_object_part_text_set(layout, PART_STEPS, step_message);
+}
+
+void view_update_pedometer() {
+	get_today_count(update_pedometer);
 }
 
 /*
@@ -151,6 +161,13 @@ void view_set_display_time(current_time_t current_time) {
 		edje_object_part_text_set(layout, PART_DATE_MONTH, date_month);
 		s_info.month = current_time.month;
 		s_info.day = current_time.day;
+	}
+
+	s_info.pedometer_updated = s_info.pedometer_updated + 1;
+
+	if (s_info.pedometer_updated >= PEDOMETER_SENSOR_INTERVAL) {
+		view_update_pedometer();
+		s_info.pedometer_updated = 0;
 	}
 
 	Edje_Message_Int_Set *msg = malloc(
@@ -186,7 +203,7 @@ void view_toggle_ambient_mode(bool ambient_mode) {
 void view_destroy(void) {
 	if (s_info.win == NULL)
 		return;
-
+	destroy_pedometer();
 	evas_object_del(s_info.win);
 }
 
@@ -230,6 +247,8 @@ static Evas_Object *_create_layout(void) {
 	evas_object_size_hint_min_set(layout, s_info.w, s_info.h);
 	evas_object_resize(layout, s_info.w, s_info.h);
 	evas_object_show(layout);
+	init_pedometer();
+	view_update_pedometer();
 
 	return layout;
 }

@@ -120,6 +120,31 @@ collections {
          }
 
          part {
+         	name: PART_STEPS;
+         	type: TEXT;
+         	description {
+         		align: 0 0;
+         		color: 249 215 28 255;
+         		rel1 {
+         			relative: 0.15 0.45;
+         		}
+         		rel2 {
+         			relative: 0.35 0.55;
+         		}
+         		text {
+         			text: "0";
+         			font: "SWFONT";
+         			size: 12;
+         			fit: 0 0;
+         			min: 0 0;
+         			max: 0 0;
+         			align: 0.5 0;
+         			elipsis: 0.0;
+         		}
+         	}
+         }
+
+         part {
             name: PART_HAND_HOUR;
             type: IMAGE;
             scale: 1;
@@ -233,6 +258,10 @@ collections {
                   custom_state(PART:PART_BATTERY, "default", 0.0);
                   set_state_val(PART:PART_BATTERY, STATE_VISIBLE, 1);
                   set_state(PART:PART_BATTERY, "shown", 0.0);
+
+                  custom_state(PART:PART_STEPS, "default", 0.0);
+                  set_state_val(PART:PART_STEPS, STATE_VISIBLE, 1);
+                  set_state(PART:PART_STEPS, "shown", 0.0);
                } else {
                   custom_state(PART:PART_HAND_SECOND, "default", 0.0);
                   set_state_val(PART:PART_HAND_SECOND, STATE_VISIBLE, 0);
@@ -253,6 +282,10 @@ collections {
                   custom_state(PART:PART_BATTERY, "default", 0.0);
                   set_state_val(PART:PART_BATTERY, STATE_VISIBLE, 0);
                   set_state(PART:PART_BATTERY, "hidden", 0.0);
+
+                  custom_state(PART:PART_STEPS, "default", 0.0);
+                  set_state_val(PART:PART_STEPS, STATE_VISIBLE, 0);
+                  set_state(PART:PART_STEPS, "hidden", 0.0);
                }
             }
 
@@ -282,6 +315,8 @@ collections {
                   set_state(PART:PART_DATE_MONTH, "custom", 0.0);
                   custom_state(PART:PART_BATTERY, "default", 0.0);
                   set_state(PART:PART_BATTERY, "custom", 0.0);
+                  custom_state(PART:PART_STEPS, "default", 0.0);
+                  set_state(PART:PART_STEPS, "custom", 0.0);
                }
             }
          }
