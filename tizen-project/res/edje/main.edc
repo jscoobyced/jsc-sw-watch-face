@@ -126,15 +126,15 @@ collections {
          		align: 0 0;
          		color: 249 215 28 255;
          		rel1 {
-         			relative: 0.2 0.45;
+         			relative: 0.15 0.45;
          		}
          		rel2 {
-         			relative: 0.3 0.55;
+         			relative: 0.35 0.55;
          		}
          		text {
          			text: "0";
          			font: "SWFONT";
-         			size: 18;
+         			size: 12;
          			fit: 0 0;
          			min: 0 0;
          			max: 0 0;
