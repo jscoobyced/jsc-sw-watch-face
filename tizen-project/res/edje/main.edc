@@ -134,7 +134,7 @@ collections {
          		text {
          			text: "0";
          			font: "SWFONT";
-         			size: 12;
+         			size: 16;
          			fit: 0 0;
          			min: 0 0;
          			max: 0 0;
