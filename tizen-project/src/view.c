@@ -16,9 +16,8 @@ static struct view_info {
 	int day;
 	int month;
 	int battery;
-	int pedometer_updated;
 } s_info = { .win = NULL, .layout = NULL, .w = 0, .h = 0, .lang = 0, .day = 0,
-		.month = 0, .pedometer_updated = 0 };
+		.month = 0 };
 
 char months[2][12][8] = { { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
 		"Aug", "Sep", "Oct", "Nov", "Dec" }, { "Janv", "Fevr", "Mars", "Avri",
@@ -163,12 +162,7 @@ void view_set_display_time(current_time_t current_time) {
 		s_info.day = current_time.day;
 	}
 
-	s_info.pedometer_updated = s_info.pedometer_updated + 1;
-
-	if (s_info.pedometer_updated >= PEDOMETER_SENSOR_INTERVAL) {
-		view_update_pedometer();
-		s_info.pedometer_updated = 0;
-	}
+	view_update_pedometer();
 
 	Edje_Message_Int_Set *msg = malloc(
 			sizeof(Edje_Message_Int_Set) + 2 * sizeof(int));
